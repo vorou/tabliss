@@ -20,15 +20,16 @@ interface Data {
 }
 
 class Quote extends React.PureComponent<Props> {
-  componentWillMount() {
+  constructor(props: Props) {
+    super(props);
     if (new Date().getDate() !== get(this.props, 'local.date')) {
       this.getQuote(this.props).then(quote => this.props.setLocal(quote));
     }
   }
 
-  componentWillReceiveProps(props: Props) {
-    if (this.props.category !== props.category) {
-      this.getQuote(props).then(quote => this.props.setLocal(quote));
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.category !== prevProps.category) {
+      this.getQuote(this.props).then(quote => this.props.setLocal(quote));
     }
   }
 
